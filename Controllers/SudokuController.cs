@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuSolverApi.Models;
 using SudokuSolverApi.Services;
+using System.Text.Json;
 
 namespace SudokuSolverApi.Controllers;
 
@@ -18,32 +19,41 @@ public class SudokuController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
-    public ActionResult<string> Get()
-    {
-        return "Welcome to the Sudoku Solver API. Use POST /sudoku/solve to solve a Sudoku puzzle.";
-    }
-
     [HttpPost("solve")]
-    public ActionResult<SudokuPuzzle> Solve(SudokuPuzzle puzzle)
+    public ActionResult<SudokuPuzzle> Solve([FromBody] JsonElement puzzleJson)
     {
         _logger.LogInformation("Received Sudoku puzzle to solve");
 
-        if (!puzzle.IsValid())
+        try
         {
-            _logger.LogWarning("Received invalid Sudoku puzzle");
-            return BadRequest("Invalid Sudoku puzzle format.");
-        }
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
 
-        if (_solverService.SolveSudoku(puzzle))
-        {
-            _logger.LogInformation("Successfully solved Sudoku puzzle");
-            return Ok(puzzle);
+            var puzzle = JsonSerializer.Deserialize<SudokuPuzzle>(puzzleJson.GetRawText(), options);
+
+            if (puzzle == null || !puzzle.IsValid())
+            {
+                _logger.LogWarning("Received invalid Sudoku puzzle");
+                return BadRequest("Invalid Sudoku puzzle format.");
+            }
+
+            if (_solverService.SolveSudoku(puzzle))
+            {
+                _logger.LogInformation("Successfully solved Sudoku puzzle");
+                return Ok(puzzle);
+            }
+            else
+            {
+                _logger.LogWarning("Received unsolvable Sudoku puzzle");
+                return BadRequest("The puzzle is unsolvable.");
+            }
         }
-        else
+        catch (JsonException ex)
         {
-            _logger.LogWarning("Received unsolvable Sudoku puzzle");
-            return BadRequest("The puzzle is unsolvable.");
+            _logger.LogError(ex, "Error deserializing JSON");
+            return BadRequest("Invalid JSON format");
         }
     }
 }

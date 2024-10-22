@@ -2,9 +2,9 @@
   "name": "sudokusolverapi",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "keywords": [],
@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "lucide-react": "^0.453.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

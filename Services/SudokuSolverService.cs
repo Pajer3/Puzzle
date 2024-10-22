@@ -4,7 +4,7 @@ namespace SudokuSolverApi.Services;
 
 public class SudokuSolverService
 {
-    public bool SolveSudoku(SudokuPuzzle puzzle)
+    public bool SolveSudoku(Types puzzle)
     {
         return SolveRecursively(puzzle.Grid);
     }
@@ -55,6 +55,7 @@ public class SudokuSolverService
         // Check 3x3 box
         int startRow = row - row % 3;
         int startCol = col - col % 3;
+
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 if (grid[i + startRow][j + startCol] == num)

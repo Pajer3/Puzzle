@@ -1,5 +1,6 @@
 using SudokuSolverApi.Services;
 using SudokuSolverApi.GraphQL;
+using SudokuSolverApi.Types;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,8 @@ builder.Services.AddScoped<SudokuSolverService>();
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddMutationType<Mutation>();
+    .AddMutationType<Mutation>()
+    .AddType<SudokuPuzzle>();
 
 
 builder.Services.AddCors(options =>

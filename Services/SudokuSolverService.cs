@@ -1,10 +1,10 @@
-using SudokuSolverApi.Models;
+using SudokuSolverApi.Types;
 
 namespace SudokuSolverApi.Services;
 
 public class SudokuSolverService
 {
-    public bool SolveSudoku(Types puzzle)
+    public bool SolveSudoku(SudokuPuzzle puzzle)
     {
         return SolveRecursively(puzzle.Grid);
     }

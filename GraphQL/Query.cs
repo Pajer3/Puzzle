@@ -1,4 +1,4 @@
-using SudokuSolverApi.Models;
+using SudokuSolverApi.Types;
 using SudokuSolverApi.Services;
 
 namespace SudokuSolverApi.GraphQL

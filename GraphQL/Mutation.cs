@@ -1,4 +1,4 @@
-using SudokuSolverApi.Models;
+using SudokuSolverApi.Types;
 using SudokuSolverApi.Services;
 
 namespace SudokuSolverApi.GraphQL
@@ -12,7 +12,7 @@ namespace SudokuSolverApi.GraphQL
             _solverService = solverService;
         }
 
-        public Types SolveSudoku(Types puzzle)
+        public SudokuPuzzle SolveSudoku(SudokuPuzzle puzzle)
         {
             if (!puzzle.IsValid())
             {

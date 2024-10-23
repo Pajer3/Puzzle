@@ -1,10 +1,10 @@
-namespace SudokuSolverApi.Models
+namespace SudokuSolverApi.Types
 {
-    public class Types
+    public class SudokuPuzzle
     {
         public int[][] Grid { get; set; }
 
-        public Types()
+        public SudokuPuzzle()
         {
             Grid = new int[9][];
             for (int i = 0; i < 9; i++)
